@@ -89,17 +89,6 @@ void insert(Node** ref_to_head, int num){
 
   // TODO: Read the docstring above and complete the code
 
-	void insert(Node** ref_to_head, int num){
-    Node* new_node = malloc(sizeof(Node));
-    new_node->data = num;
-
-    
-    new_node->next = *ref_to_head;
-
-    
-    *ref_to_head = new_node;
-}
-
 }
 
 /* 
@@ -123,14 +112,7 @@ void insert(Node** ref_to_head, int num){
 Node* search(Node* head, int num){
 
   // TODO: Read the docstring above and complete the code
-	Node* search(Node* head, int num){
-    Node* temp = head;
-    while(temp != NULL){
-        if(temp->data == num)
-            return temp;   
-        temp = temp->next;
-    }
-    return NULL;  
+  
 }
 
 
@@ -168,30 +150,7 @@ int delete(Node** ref_to_head, int num){
 
   Node* prev = NULL;
   // TODO: Read the docstring above and complete the code
-  int delete(Node** ref_to_head, int num){
-    Node* temp = *ref_to_head;
-    Node* prev = NULL;
-
-    // check if head needs to be deleted
-    if(temp != NULL && temp->data == num){
-        *ref_to_head = temp->next;
-        free(temp);
-        return 1;
-    }
-
-    // search for node to delete
-    while(temp != NULL && temp->data != num){
-        prev = temp;
-        temp = temp->next;
-    }
-
-    if(temp == NULL) return 0; // not found
-
-    // unlink and free
-    prev->next = temp->next;
-    free(temp);
-    return 1;
-}
+  
 
 }
 
@@ -216,20 +175,6 @@ void reverse(Node** ref_to_head){
 
   // TODO: Read the docstring above and complete the code
 
-	void reverse(Node** ref_to_head){
-    Node* prev = NULL;
-    Node* curr = *ref_to_head;
-    Node* next = NULL;
-
-    while(curr != NULL){
-        next = curr->next;   // store next
-        curr->next = prev;   // reverse pointer
-        prev = curr;
-        curr = next;
-    }
-
-    *ref_to_head = prev;     // update head
-}
 
 }
 
@@ -246,15 +191,7 @@ void reverse(Node** ref_to_head){
  */ 
 
 void print(Node* head){
-if(head == NULL){
-        printf("-1\n");
-        return;
-    }
-    Node* temp = head;
-    while(temp != NULL){
-        printf("%d ", temp->data);
-        temp = temp->next;
-    }
+
   printf("\n");
 }
 
@@ -324,18 +261,6 @@ int main()
         
         // TODO: Write appropriate code to free up memory allocated for
         // creating linked list
-	void free_list(Node* head){
-    Node* temp;
-    while(head != NULL){
-        temp = head;
-        head = head->next;
-        free(temp);
-    }
-}
-
-free_list(head);
-
-
 	//Do not add/modify anything below this line
 	return 0;
 }
