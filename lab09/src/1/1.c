@@ -88,12 +88,10 @@ void interactive(Node* head){
 void insert(Node** ref_to_head, int num){
 
   // TODO: Read the docstring above and complete the code
-  Node *new_node;
-  new_node=mallac(sizeof(Node));
-  new_node->data=num;
-  new_node->next=*ref_to_head;
-  *ref_to_head=new_node;
-
+    Node* new_node = malloc(sizeof(Node));
+    new_node->data = num;    
+    new_node->next = *ref_to_head;
+    *ref_to_head = new_node;
 }
 
 /* 
@@ -115,15 +113,16 @@ void insert(Node** ref_to_head, int num){
  */ 
 
 Node* search(Node* head, int num){
+
   // TODO: Read the docstring above and complete the code
-  Node* temp;  //creating a ptr which point to Node
-  temp=head;   //copy adress of head
-  while(temp!=NULL){
-    if (temp->data==num){return temp}
-    temp=temp->next;
-  }
-  return NULL
-}
+    Node* temp = head;
+    while(temp != NULL){
+        if(temp->data == num)
+            return temp;   
+        temp = temp->next;
+    }
+    return NULL;  
+	
 
 
 }
@@ -159,24 +158,24 @@ Node* search(Node* head, int num){
 int delete(Node** ref_to_head, int num){
 
   Node* prev = NULL;
-  // TODO:  Read the docstring above and complete the code
-  Node* temp = *ref_to_head;
-  //empty list
-  if (temp==NULL){return 0;}
-  //delete head node
-  if(temp->data == num ){
-    *ref_to_head = temp->next;
-    free(temp);
-    return 1;}
-  //delete non head node
-  prev = temp;          // start with head as prev
-  temp = temp->next;  //already checked head or first one so start with second
-  while(temp!=NULL){
-    if(temp->data==num){prev->next=temp->next;free(temp);return 1;}
-    prev=temp;
-    temp=temp->next;
-  }
-  return 0;
+  // TODO: Read the docstring above and complete the code
+    Node* temp = *ref_to_head;
+
+//head to be deleted
+    if(temp != NULL && temp->data == num){
+        *ref_to_head = temp->next;
+        free(temp);
+        return 1;
+    }
+
+//deleting non head node by moving to next
+    while(temp != NULL){
+	if(temp->data==num){prev->next=temp->next;free(temp);return 1;
+			}
+        prev = temp;
+        temp = temp->next;
+	}
+	return 0;//head is null  or data not found
 
 }
 
@@ -198,10 +197,16 @@ int delete(Node** ref_to_head, int num){
  */ 
 
 void reverse(Node** ref_to_head){
-
+	Node* head=*ref_to_head;
   // TODO: Read the docstring above and complete the code
-
-
+   	Node* back=NULL;
+	while(head!=NULL){
+		Node* temp=head->next;//saving adress of 2
+		head->next=back;//changing next to null
+		back=head;//10 becomes back
+		head=temp;//head becomes 2
+	}
+	*ref_to_head = back; 
 }
 
 /* 
@@ -217,7 +222,15 @@ void reverse(Node** ref_to_head){
  */ 
 
 void print(Node* head){
-
+if(head == NULL){
+        printf("-1\n");
+        return;
+    }
+    Node* temp = head;
+    while(temp != NULL){
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
   printf("\n");
 }
 
@@ -287,6 +300,17 @@ int main()
         
         // TODO: Write appropriate code to free up memory allocated for
         // creating linked list
+	void free_list(Node* head){
+    	Node* temp;
+    	while(head != NULL){
+        temp = head;
+        head = head->next;
+        free(temp);
+    		}
+	}
+
+	free_list(head);
+
 
 	//Do not add/modify anything below this line
 	return 0;

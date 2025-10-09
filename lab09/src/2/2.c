@@ -1,10 +1,14 @@
 #include <stdio.h>
 
 // TODO: Include appopriate header file for dynamic memory allocation
-
+#include<stdlib.h>
 
 // TODO: Define the struct node appropriately
-
+struct node{
+	int data;
+	struct node* prev;
+	struct node* next;
+};
 // Avoids the need to type `struct node` each time
 typedef struct node Node;
 
@@ -35,6 +39,11 @@ void interactive(Node* head){
 				if(ptr->next){
 					printf("Next element is %d\n", ptr->next->data);
 				}
+				if(ptr->prev){
+                    			printf("Previous element is %d\n", ptr->prev->data);
+               			 }
+
+
 			}else{
 				printf("ptr is NULL. Press q to exit");
 			}
@@ -50,6 +59,11 @@ void interactive(Node* head){
 				case 'q':
 					printf("Exiting interactive mode\n");
 					break;
+				case 'a':
+                    		if(ptr){
+                        	ptr = ptr->prev;
+                    		}
+                    		break;
 				default:
 					printf("Invalid option. Valid options are d (forward), q (quit) \n");
 					break;
@@ -85,6 +99,15 @@ void interactive(Node* head){
 void insert(Node** ref_to_head, int num){
 
   // TODO: Read the docstring above and complete the code
+	Node* new_node;
+	new_node=malloc(sizeof(Node));
+	new_node->data=num;
+	new_node->next=*ref_to_head;
+	new_node->prev=NULL;
+	if (new_node->next != NULL) {
+	new_node->next->prev=new_node;   }
+	*ref_to_head=new_node;
+	
 }
 
 /* 
@@ -108,6 +131,13 @@ void insert(Node** ref_to_head, int num){
 Node* search(Node* head, int num){
 
   // TODO: Read the docstring above and complete the code
+	Node* tmp=head;
+	//traverse
+	while(tmp!=NULL){
+		if(tmp->data==num){return tmp;}
+		tmp=tmp->next;
+	}
+	return NULL;
 
 }
 
@@ -143,7 +173,22 @@ int delete(Node** ref_to_head, int num){
 
   Node* prev = NULL;
   // TODO: Read the docstring above and complete the code
-
+	Node* temp=*ref_to_head;
+	if (temp==NULL){return 0;}
+	if (temp!=NULL && temp->data==num){
+		if(temp->next!=NULL){temp->next->prev=NULL;}
+		*ref_to_head=temp->next;
+		free(temp);return 1;
+	}
+	while(temp!=NULL){
+		if(temp->data==num){prev->next=temp->next;
+		if (temp->next != NULL) {
+		temp->next->prev=prev;}
+		free(temp);return 1;}
+		prev=temp;
+		temp=temp->next;
+	}	
+	return 0;
 }
 
 /* 
@@ -166,6 +211,16 @@ int delete(Node** ref_to_head, int num){
 void reverse(Node** ref_to_head){
 
   // TODO: Read the docstring above and complete the code
+	Node* temp=*ref_to_head;
+	while(temp!=NULL){
+		Node* k=NULL;
+		k=temp->next;
+		if(k==NULL){*ref_to_head=temp;}
+		temp->next=temp->prev;
+		temp->prev=k;
+		temp=k;
+	}
+
 }
 
 /* 
@@ -181,6 +236,15 @@ void reverse(Node** ref_to_head){
  */ 
 
 void print(Node* head){
+	Node* temp=head;
+	if (head == NULL) {
+        printf("-1\n");
+        return;
+    }
+	while(temp!=NULL){
+	printf("%d ",temp->data);	
+	temp=temp->next;
+		}
   printf("\n");
 }
 
@@ -250,7 +314,16 @@ int main()
         
         // TODO: Write appropriate code to free up memory allocated for
         // creating doubly linked list
+	 void free_list(Node* head){
+        Node* temp;
+        while(head != NULL){
+        temp = head;
+        head = head->next;
+        free(temp);
+                }
+        }
 
+	free_list(head);
 
 	//Do not add/modify anything below this line
 	return 0;
